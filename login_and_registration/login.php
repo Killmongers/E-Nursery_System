@@ -1,4 +1,35 @@
+<?php 
 
+if(isset($_POST['login_btn']))
+{
+
+  session_start();
+
+
+$a = $_POST["email_id"]; 
+$b = $_POST["password"];
+
+
+
+@$con = mysql_connect("localhost","root","");
+if(!$con)
+{
+die("error");
+}
+mysql_select_db("e-nursery system");
+
+
+
+$q = "SELECT * FROM user_registration WHERE email_id = '$a' && password = '$b'";
+
+$result = mysql_query($q,$con);
+
+$num = mysql_num_rows($result);
+
+if($num==0)
+{
+
+    ?>
 
 <html lang="en" dir="ltr">
   <head>
@@ -26,38 +57,7 @@
           Not a member? <a href="registration.php">Signup</a>
         </div>
       </form>
-          <?php 
 
-          if(isset($_POST['login_btn']))
-          {
-
-            session_start();
-
-
-$a = $_POST["email_id"]; 
-$b = $_POST["password"];
-
-
-
-@$con = mysql_connect("localhost","root","");
-if(!$con)
-{
-     die("error");
-}
-mysql_select_db("e-nursery system");
-
-
-
-$q = "SELECT * FROM user_registration WHERE email_id = '$a' && password = '$b'";
-
-$result = mysql_query($q,$con);
-
-$num = mysql_num_rows($result);
-
-if($num==0)
-{
-     
-              ?>
               <textarea readonly name="error" style="width:100%;padding-bottom:30px;font-family: 'Poppins', 'sans-serif';border:none;resize:none;padding-left:10px; color:red;font-size:20px;"><?php echo 'invalid email or password or you have not registered your self yet !' ?> </textarea>
 
               

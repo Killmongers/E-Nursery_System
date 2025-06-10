@@ -1,0 +1,36 @@
+services:
+  web:
+    image: php56-e-nursery
+    container_name: php56-e-nursery
+    volumes:
+      - .:/var/www/html
+    network_mode: host
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    container_name: mysql57-enursery
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: e-nursery system
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/e-nursery_system.sql:/docker-entrypoint-initdb.d/init.sql
+    network_mode: host
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-enursery
+    restart: always
+    environment:
+      PMA_HOST: 127.0.0.1
+      PMA_USER: root
+      PMA_PASSWORD: root
+      PMA_PORT: 3306
+      APACHE_PORT: 8080
+    network_mode: host
+    depends_on:
+      - db
+
+volumes:
+  db_data:
